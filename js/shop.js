@@ -105,7 +105,7 @@ function calculateTotal() {
         total += cartList[i].price;
         console.log(total);
         return total;
-        }
+    }
 }
 
 // Exercise 4
@@ -172,5 +172,6 @@ function removeFromCart(id) {
 
 function open_modal() {
     console.log("Open Modal");
+    document.getElementById('total_price').innerHTML = calculateTotal();
     printCart();
 }
