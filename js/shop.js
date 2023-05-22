@@ -96,16 +96,15 @@ function cleanCart() {
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
-    // 3. Loop for to the array cart to get the item to add to cart
-    // 4. Add found product to the cartList array
+    total = 0;
     let i = 0;
 
     for(i; i < cartList.length; i++) {
         console.log(cartList[i].price);
         total += cartList[i].price;
-        console.log(total);
-        return total;
     }
+    console.log(total);
+    return total;
 }
 
 // Exercise 4
@@ -114,7 +113,7 @@ function calculateTotal() {
 // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
 
 function generateCart() {
-    let cart = [];
+    // let cart = [];
     let i, j;
     let found = false;
 
@@ -146,12 +145,15 @@ function generateCart() {
 
 // Exercise 5
 function applyPromotionsCart() {
+    
     // Apply promotions to each item in the array "cart"
 }
 
 // Exercise 6
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
+document.getElementById('total_price').innerHTML = total;
+
 }
 
 
@@ -172,6 +174,6 @@ function removeFromCart(id) {
 
 function open_modal() {
     console.log("Open Modal");
-    document.getElementById('total_price').innerHTML = calculateTotal();
+    calculateTotal();
     printCart();
 }
