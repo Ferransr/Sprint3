@@ -70,6 +70,8 @@ let cart = [];
 
 let total = 0;
 
+let quantity = 0;
+
 // Exercise 1
 
 // 1. Loop for to the array products to get the item to add to cart
@@ -81,6 +83,7 @@ function buy(id) {
             console.log(products[i]);
             cartList.push(products[i]);
             console.log(cartList);
+            document.getElementById('count_product').textContent = (quantity += 1);
             return cartList
         }
     }
