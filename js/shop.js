@@ -1,67 +1,3 @@
-// If you have time, you can move this variable "products" to a json or js file and load the data in this js. It will look more professional
-let products = [{
-        id: 1,
-        name: 'cooking oil',
-        price: 10.5,
-        type: 'grocery',
-        offer: {
-            number: 3,
-            percent: 20
-        }
-    },
-    {
-        id: 2,
-        name: 'Pasta',
-        price: 6.25,
-        type: 'grocery'
-    },
-    {
-        id: 3,
-        name: 'Instant cupcake mixture',
-        price: 5,
-        type: 'grocery',
-        offer: {
-            number: 10,
-            percent: 30
-        }
-    },
-    {
-        id: 4,
-        name: 'All-in-one',
-        price: 260,
-        type: 'beauty'
-    },
-    {
-        id: 5,
-        name: 'Zero Make-up Kit',
-        price: 20.5,
-        type: 'beauty'
-    },
-    {
-        id: 6,
-        name: 'Lip Tints',
-        price: 12.75,
-        type: 'beauty'
-    },
-    {
-        id: 7,
-        name: 'Lawn Dress',
-        price: 15,
-        type: 'clothes'
-    },
-    {
-        id: 8,
-        name: 'Lawn-Chiffon Combo',
-        price: 19.99,
-        type: 'clothes'
-    },
-    {
-        id: 9,
-        name: 'Toddler Frock',
-        price: 9.99,
-        type: 'clothes'
-    }
-]
 // Array with products (objects) added directly with push(). Products in this array are repeated.
 let cartList = [];
 
@@ -72,18 +8,16 @@ let total = 0;
 
 let quantity = 0;
 
-
 // Exercise 1
 
 // 1. Loop for to the array products to get the item to add to cart
 // 2. Add found product to the cartList array
 function buy(id) {
-    let i = 0;
-    for (i = 0; i < products.length; i++) {
-        if (products[i].id === id) {
-            console.log(products[i]);
-            cartList.push(products[i]);
-            console.log( cartList);
+    for (const item of products) {
+        if (item.id === id) {
+            console.log(item);
+            cartList.push(item);
+            console.log(cartList);
             document.getElementById('count_product').textContent = (quantity += 1);
             return cartList
         }
@@ -101,11 +35,10 @@ function cleanCart() {
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
     total = 0;
-    let i = 0;
 
-    for(i; i < cartList.length; i++) {
-        console.log('Precio producto', cartList[i].price);
-        total += cartList[i].price;
+    for (const item of cartList) {
+        console.log('Precio producto', item.price);
+        total += item.price;
     }
     console.log('Total', total);
     return total;
@@ -117,34 +50,53 @@ function calculateTotal() {
 // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
 
 function generateCart() {
-  for (const cartItem of cartList) {
-    let existingItem = cart.find(item => item.id === cartItem.id);
+    for (const cartItem of cartList) {
+        let existingItem = cart.find(item => item.id === cartItem.id);
 
-    if (existingItem) {
-      existingItem.quantity++;
-    } else {
-      const product = {
-        id: cartItem.id,
-        name: cartItem.name,
-        price: cartItem.price,
-        type: cartItem.type,
-        quantity: 1
-      };
-      cart.push(product);
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            const product = {
+                id: cartItem.id,
+                name: cartItem.name,
+                price: cartItem.price,
+                type: cartItem.type,
+                quantity: 1
+            };
+            cart.push(product);
+        }
     }
-  }
 }
 
 // Exercise 5
 // Apply promotions to each item in the array "cart"
 function applyPromotionsCart() {
-    
+    for (const cartItem of cart) {
+        const subtotal = parseFloat(cartItem.price * cartItem.quantity);
+
+        if (cartItem.offer) {
+            if (cartItem.quantity >= cartItem.offer.number) {
+                const discountAmount = parseFloat(subtotal * (cartItem.offer.percent / 100));
+                const subtotalWithDiscount = parseFloat(subtotal - discountAmount);
+
+                cartItem.subtotal = parseFloat(subtotal.toFixed(2));
+                cartItem.subtotalWithDiscount = parseFloat(subtotalWithDiscount.toFixed(2)); // Con descuento
+            } 
+
+        } else {
+            cartItem.subtotal = parseFloat(subtotal.toFixed(2));
+            cartItem.subtotalWithDiscount = parseFloat(subtotal.toFixed(2)); // Sin descuento
+        }
+        
+        console.log("Subtotal:", cartItem.subtotal);
+        console.log("Subtotal con descuento:", cartItem.subtotalWithDiscount !== cartItem.subtotal ? cartItem.subtotalWithDiscount : "No aplica descuento");
+    }
 }
 
 // Exercise 6
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
-document.getElementById('total_price').innerHTML = total;
+    document.getElementById('total_price').innerHTML = total;
 
 }
 
@@ -167,6 +119,7 @@ function open_modal() {
     console.log("Open Modal");
     calculateTotal();
     generateCart();
+    applyPromotionsCart();
     console.log('CART', cart);
     printCart();
 }
