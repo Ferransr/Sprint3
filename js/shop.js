@@ -72,6 +72,7 @@ let total = 0;
 
 let quantity = 0;
 
+
 // Exercise 1
 
 // 1. Loop for to the array products to get the item to add to cart
@@ -82,7 +83,7 @@ function buy(id) {
         if (products[i].id === id) {
             console.log(products[i]);
             cartList.push(products[i]);
-            console.log(cartList);
+            console.log( cartList);
             document.getElementById('count_product').textContent = (quantity += 1);
             return cartList
         }
@@ -103,10 +104,10 @@ function calculateTotal() {
     let i = 0;
 
     for(i; i < cartList.length; i++) {
-        console.log(cartList[i].price);
+        console.log('Precio producto', cartList[i].price);
         total += cartList[i].price;
     }
-    console.log(total);
+    console.log('Total', total);
     return total;
 }
 
@@ -116,40 +117,28 @@ function calculateTotal() {
 // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
 
 function generateCart() {
-    // let cart = [];
-    let i, j;
-    let found = false;
+  for (const cartItem of cartList) {
+    let existingItem = cart.find(item => item.id === cartItem.id);
 
-    for (i = 0; i < cartList.length; i++) {
-        for (j = 0; j < cart.length; j++) {
-            if (cartList[i].id === cart[j].id) {
-                cart[j].quantity++;
-                found = true;
-                break;
-            }
-        }
-
-        if (!found) {
-            let product = {
-                id: cartList[i].id,
-                name: cartList[i].name,
-                price: cartList[i].price,
-                type: cartList[i].type,
-                quantity: 1
-            };
-            cart.push(product);
-        }
+    if (existingItem) {
+      existingItem.quantity++;
+    } else {
+      const product = {
+        id: cartItem.id,
+        name: cartItem.name,
+        price: cartItem.price,
+        type: cartItem.type,
+        quantity: 1
+      };
+      cart.push(product);
     }
-
-    console.log(cart);
-    return cart;
+  }
 }
 
-
 // Exercise 5
+// Apply promotions to each item in the array "cart"
 function applyPromotionsCart() {
     
-    // Apply promotions to each item in the array "cart"
 }
 
 // Exercise 6
@@ -171,12 +160,13 @@ function addToCart(id) {
 
 // Exercise 8
 function removeFromCart(id) {
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
+
 }
 
 function open_modal() {
     console.log("Open Modal");
     calculateTotal();
+    generateCart();
+    console.log('CART', cart);
     printCart();
 }
