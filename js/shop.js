@@ -118,7 +118,7 @@ function printCart() {
     productsTable.innerHTML = '';
 
     // Fill the shopping cart modal manipulating the shopping cart dom
-    document.getElementById('total_price').innerHTML = total;
+    document.getElementById('total_price').innerHTML = total.toFixed(2);
     
     cart.forEach((product) => {
         let newProductRow = productsTable.insertRow(-1);
